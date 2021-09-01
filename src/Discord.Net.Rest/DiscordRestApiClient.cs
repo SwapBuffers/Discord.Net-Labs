@@ -1254,14 +1254,14 @@ namespace Discord.API
         }
 
         //Interaction Responses
-        public async Task CreateInteractionResponse(InteractionResponse response, ulong interactionId, string interactionToken, RequestOptions options = null)
+        public async Task<Message> CreateInteractionResponse(InteractionResponse response, ulong interactionId, string interactionToken, RequestOptions options = null)
         {
             if(response.Data.IsSpecified && response.Data.Value.Content.IsSpecified)
                 Preconditions.AtMost(response.Data.Value.Content.Value?.Length ?? 0, 2000, nameof(response.Data.Value.Content));
 
             options = RequestOptions.CreateOrClone(options);
 
-            await SendJsonAsync<Message>("POST", () => $"interactions/{interactionId}/{interactionToken}/callback", response, new BucketIds(), options: options);
+            return await SendJsonAsync<Message>("POST", () => $"interactions/{interactionId}/{interactionToken}/callback", response, new BucketIds(), options: options);
         }
         public async Task<Message> GetInteractionResponse(string interactionToken, RequestOptions options = null)
         {
