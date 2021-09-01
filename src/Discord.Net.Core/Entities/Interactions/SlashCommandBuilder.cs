@@ -509,6 +509,19 @@ namespace Discord
         }
 
         /// <summary>
+        ///     Adds a collection of options to the current slash command.
+        /// </summary>
+        /// <param name="choices">The collection of choices to add.</param>
+        /// <returns>The current builder.</returns>
+        public SlashCommandOptionBuilder AddChoices(Tuple<string, string>[] choices)
+        {
+            foreach (Tuple<string, string> choice in choices)
+                this.AddChoice(choice.Item1, choice.Item2);
+
+            return this;
+        }
+
+        /// <summary>
         ///     Sets the current builders name.
         /// </summary>
         /// <param name="name">The name to set the current option builder.</param>
