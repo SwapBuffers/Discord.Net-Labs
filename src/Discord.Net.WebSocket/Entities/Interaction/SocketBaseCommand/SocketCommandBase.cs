@@ -225,7 +225,7 @@ namespace Discord.WebSocket
                 args.Flags = MessageFlags.Ephemeral;
 
             return await InteractionHelper.SendFollowupAsync(Discord.Rest, args, Token, Channel, options);
-        }
+        }   
 
         /// <summary>
         ///     Acknowledges this interaction with the <see cref="InteractionResponseType.DeferredChannelMessageWithSource"/>.
@@ -243,6 +243,10 @@ namespace Discord.WebSocket
                     Flags = ephemeral ? MessageFlags.Ephemeral : Optional<MessageFlags>.Unspecified
                 }
             };
+
+            // check if already deferred
+            if (Discord.AlwaysAcknowledgeInteractions)
+                return null;
 
             return Discord.Rest.ApiClient.CreateInteractionResponse(response, this.Id, this.Token, options);
         }
